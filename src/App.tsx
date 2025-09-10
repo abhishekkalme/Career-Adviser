@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
-import { Badge } from './components/ui/badge';
-import { Button } from './components/ui/button';
-import { UserProfile } from './components/UserProfile';
-import { AssessmentQuiz } from './components/AssessmentQuiz';
-import { CareerDashboard } from './components/CareerDashboard';
-import { SkillGapAnalysis } from './components/SkillGapAnalysis';
-import { ChatBot } from './components/ChatBot';
-import { LearningResources } from './components/LearningResources';
-import { ProgressionLadder } from './components/ProgressionLadder';
-import { Brain, Users, Target, TrendingUp, MessageSquare, BookOpen, Map } from 'lucide-react';
+import React, { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./components/ui/card";
+import { Badge } from "./components/ui/badge";
+import { Button } from "./components/ui/button";
+import { UserProfile } from "./components/UserProfile";
+import { AssessmentQuiz } from "./components/AssessmentQuiz";
+import { CareerDashboard } from "./components/CareerDashboard";
+import { SkillGapAnalysis } from "./components/SkillGapAnalysis";
+import { ChatBot } from "./components/ChatBot";
+import { LearningResources } from "./components/LearningResources";
+import { ProgressionLadder } from "./components/ProgressionLadder";
+import {
+  Brain,
+  Users,
+  Target,
+  TrendingUp,
+  MessageSquare,
+  BookOpen,
+  Map,
+} from "lucide-react";
 
 interface UserData {
   profile: any;
@@ -24,16 +38,16 @@ export default function App() {
     profile: null,
     assessmentResults: null,
     careerRecommendations: [],
-    skillGaps: []
+    skillGaps: [],
   });
 
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [currentStep, setCurrentStep] = useState(0);
 
   const steps = [
-    { id: 'profile', title: 'User Profile', icon: Users },
-    { id: 'assessment', title: 'Assessment', icon: Brain },
-    { id: 'results', title: 'Career Insights', icon: Target }
+    { id: "profile", title: "User Profile", icon: Users },
+    { id: "assessment", title: "Assessment", icon: Brain },
+    { id: "results", title: "Career Insights", icon: Target },
   ];
 
   return (
@@ -60,7 +74,7 @@ export default function App() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Steps */}
-        <div className="mb-8 overflow-x-auto">
+        <div className="mb-8 overflow-x-auto scrollbar-hide">
           <div className="flex items-center justify-start space-x-4 min-w-max px-2">
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -69,16 +83,37 @@ export default function App() {
 
               return (
                 <div key={step.id} className="flex items-center">
-                  <div className={`flex items-center space-x-2 ${isActive ? 'text-indigo-600' : isCompleted ? 'text-green-600' : 'text-gray-400'}`}>
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 
-                      ${isActive ? 'border-indigo-600 bg-indigo-50' : 
-                        isCompleted ? 'border-green-600 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
+                  <div
+                    className={`flex items-center space-x-2 ${
+                      isActive
+                        ? "text-indigo-600"
+                        : isCompleted
+                        ? "text-green-600"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center border-2 
+                      ${
+                        isActive
+                          ? "border-indigo-600 bg-indigo-50"
+                          : isCompleted
+                          ? "border-green-600 bg-green-50"
+                          : "border-gray-300 bg-gray-50"
+                      }`}
+                    >
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-sm font-medium whitespace-nowrap">{step.title}</span>
+                    <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
+                      {step.title}
+                    </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`w-12 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'}`} />
+                    <div
+                      className={`w-8 sm:w-12 h-0.5 mx-2 ${
+                        isCompleted ? "bg-green-600" : "bg-gray-300"
+                      }`}
+                    />
                   )}
                 </div>
               );
@@ -88,22 +123,22 @@ export default function App() {
 
         {/* Main Content */}
         {currentStep === 0 && (
-          <UserProfile 
+          <UserProfile
             onComplete={(profileData) => {
-              setUserData(prev => ({ ...prev, profile: profileData }));
+              setUserData((prev) => ({ ...prev, profile: profileData }));
               setCurrentStep(1);
             }}
           />
         )}
 
         {currentStep === 1 && (
-          <AssessmentQuiz 
+          <AssessmentQuiz
             onComplete={(assessmentData) => {
-              setUserData(prev => ({ 
-                ...prev, 
+              setUserData((prev) => ({
+                ...prev,
                 assessmentResults: assessmentData,
                 careerRecommendations: generateMockRecommendations(assessmentData),
-                skillGaps: generateMockSkillGaps(assessmentData)
+                skillGaps: generateMockSkillGaps(assessmentData),
               }));
               setCurrentStep(2);
             }}
@@ -148,61 +183,60 @@ export default function App() {
     </TabsTrigger>
   </TabsList>
 
-  {/* Tabs Content */}
-  <TabsContent value="dashboard">
-    <CareerDashboard 
-      userData={userData}
-      onExploreCareer={(career) => setActiveTab('progression')}
-    />
-  </TabsContent>
+            {/* Tabs Content */}
+            <TabsContent value="dashboard">
+              <CareerDashboard
+                userData={userData}
+                onExploreCareer={() => setActiveTab("progression")}
+              />
+            </TabsContent>
 
-  <TabsContent value="skills">
-    <SkillGapAnalysis skillGaps={userData.skillGaps} />
-  </TabsContent>
+            <TabsContent value="skills">
+              <SkillGapAnalysis skillGaps={userData.skillGaps} />
+            </TabsContent>
 
-  <TabsContent value="progression">
-    <ProgressionLadder 
-      careerPath={userData.careerRecommendations[0] || mockCareerPath}
-    />
-  </TabsContent>
+            <TabsContent value="progression">
+              <ProgressionLadder
+                careerPath={userData.careerRecommendations[0] || mockCareerPath}
+              />
+            </TabsContent>
 
-  <TabsContent value="learning">
-    <LearningResources 
-      skillGaps={userData.skillGaps}
-      recommendations={userData.careerRecommendations}
-    />
-  </TabsContent>
+            <TabsContent value="learning">
+              <LearningResources
+                skillGaps={userData.skillGaps}
+                recommendations={userData.careerRecommendations}
+              />
+            </TabsContent>
 
-  <TabsContent value="chat">
-    <ChatBot userData={userData} />
-  </TabsContent>
+            <TabsContent value="chat">
+              <ChatBot userData={userData} />
+            </TabsContent>
 
-  <TabsContent value="profile">
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Your Profile</CardTitle>
-        <CardDescription>
-          Review and update your profile information
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <UserProfile 
-          initialData={userData.profile}
-          onComplete={(profileData) => {
-            setUserData(prev => ({ ...prev, profile: profileData }));
-          }}
-        />
-      </CardContent>
-    </Card>
-  </TabsContent>
-</Tabs>
-
+            <TabsContent value="profile">
+              <Card className="w-full">
+                <CardHeader>
+                  <CardTitle>Your Profile</CardTitle>
+                  <CardDescription>
+                    Review and update your profile information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UserProfile
+                    initialData={userData.profile}
+                    onComplete={(profileData) => {
+                      setUserData((prev) => ({ ...prev, profile: profileData }));
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         )}
 
         {currentStep < 2 && (
           <div className="flex justify-center mt-6 px-4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setCurrentStep(2)}
               className="text-sm w-full sm:w-auto"
             >
@@ -214,6 +248,7 @@ export default function App() {
     </div>
   );
 }
+
 
 // Mock data generators
 function generateMockRecommendations(assessmentData: any) {
