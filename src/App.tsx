@@ -26,7 +26,7 @@ export default function App() {
     careerRecommendations: [],
     skillGaps: []
   });
-  
+
   const [activeTab, setActiveTab] = useState('overview');
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -60,25 +60,25 @@ export default function App() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center space-x-8">
+        <div className="mb-8 overflow-x-auto">
+          <div className="flex items-center justify-start space-x-4 min-w-max px-2">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = index === currentStep;
               const isCompleted = index < currentStep;
-              
+
               return (
                 <div key={step.id} className="flex items-center">
-                  <div className={`flex items-center space-x-3 ${isActive ? 'text-indigo-600' : isCompleted ? 'text-green-600' : 'text-gray-400'}`}>
+                  <div className={`flex items-center space-x-2 ${isActive ? 'text-indigo-600' : isCompleted ? 'text-green-600' : 'text-gray-400'}`}>
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 
                       ${isActive ? 'border-indigo-600 bg-indigo-50' : 
                         isCompleted ? 'border-green-600 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="font-medium">{step.title}</span>
+                    <span className="text-sm font-medium whitespace-nowrap">{step.title}</span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`w-12 h-0.5 mx-4 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'}`} />
+                    <div className={`w-12 h-0.5 mx-2 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'}`} />
                   )}
                 </div>
               );
@@ -112,88 +112,99 @@ export default function App() {
 
         {currentStep === 2 && (
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-8">
-              <TabsTrigger value="dashboard" className="flex items-center space-x-2">
-                <Target className="h-4 w-4" />
-                <span>Dashboard</span>
-              </TabsTrigger>
-              <TabsTrigger value="skills" className="flex items-center space-x-2">
-                <TrendingUp className="h-4 w-4" />
-                <span>Skill Analysis</span>
-              </TabsTrigger>
-              <TabsTrigger value="progression" className="flex items-center space-x-2">
-                <Map className="h-4 w-4" />
-                <span>Career Path</span>
-              </TabsTrigger>
-              <TabsTrigger value="learning" className="flex items-center space-x-2">
-                <BookOpen className="h-4 w-4" />
-                <span>Learning</span>
-              </TabsTrigger>
-              <TabsTrigger value="chat" className="flex items-center space-x-2">
-                <MessageSquare className="h-4 w-4" />
-                <span>AI Counselor</span>
-              </TabsTrigger>
-              <TabsTrigger value="profile" className="flex items-center space-x-2">
-                <Users className="h-4 w-4" />
-                <span>Profile</span>
-              </TabsTrigger>
-            </TabsList>
+  {/* Responsive Tabs List */}
+  <TabsList
+    className="
+      flex md:grid md:grid-cols-6 
+      overflow-x-auto md:overflow-visible 
+      gap-2 md:gap-0
+      scrollbar-hide
+      w-full mb-6
+    "
+  >
+    <TabsTrigger value="dashboard" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <Target className="h-4 w-4 shrink-0" />
+      <span>Dashboard</span>
+    </TabsTrigger>
+    <TabsTrigger value="skills" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <TrendingUp className="h-4 w-4 shrink-0" />
+      <span>Skill Analysis</span>
+    </TabsTrigger>
+    <TabsTrigger value="progression" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <Map className="h-4 w-4 shrink-0" />
+      <span>Career Path</span>
+    </TabsTrigger>
+    <TabsTrigger value="learning" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <BookOpen className="h-4 w-4 shrink-0" />
+      <span>Learning</span>
+    </TabsTrigger>
+    <TabsTrigger value="chat" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <MessageSquare className="h-4 w-4 shrink-0" />
+      <span>AI Counselor</span>
+    </TabsTrigger>
+    <TabsTrigger value="profile" className="flex items-center space-x-2 px-3 py-2 whitespace-nowrap">
+      <Users className="h-4 w-4 shrink-0" />
+      <span>Profile</span>
+    </TabsTrigger>
+  </TabsList>
 
-            <TabsContent value="dashboard">
-              <CareerDashboard 
-                userData={userData}
-                onExploreCareer={(career) => setActiveTab('progression')}
-              />
-            </TabsContent>
+  {/* Tabs Content */}
+  <TabsContent value="dashboard">
+    <CareerDashboard 
+      userData={userData}
+      onExploreCareer={(career) => setActiveTab('progression')}
+    />
+  </TabsContent>
 
-            <TabsContent value="skills">
-              <SkillGapAnalysis skillGaps={userData.skillGaps} />
-            </TabsContent>
+  <TabsContent value="skills">
+    <SkillGapAnalysis skillGaps={userData.skillGaps} />
+  </TabsContent>
 
-            <TabsContent value="progression">
-              <ProgressionLadder 
-                careerPath={userData.careerRecommendations[0] || mockCareerPath}
-              />
-            </TabsContent>
+  <TabsContent value="progression">
+    <ProgressionLadder 
+      careerPath={userData.careerRecommendations[0] || mockCareerPath}
+    />
+  </TabsContent>
 
-            <TabsContent value="learning">
-              <LearningResources 
-                skillGaps={userData.skillGaps}
-                recommendations={userData.careerRecommendations}
-              />
-            </TabsContent>
+  <TabsContent value="learning">
+    <LearningResources 
+      skillGaps={userData.skillGaps}
+      recommendations={userData.careerRecommendations}
+    />
+  </TabsContent>
 
-            <TabsContent value="chat">
-              <ChatBot userData={userData} />
-            </TabsContent>
+  <TabsContent value="chat">
+    <ChatBot userData={userData} />
+  </TabsContent>
 
-            <TabsContent value="profile">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Profile</CardTitle>
-                  <CardDescription>
-                    Review and update your profile information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <UserProfile 
-                    initialData={userData.profile}
-                    onComplete={(profileData) => {
-                      setUserData(prev => ({ ...prev, profile: profileData }));
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+  <TabsContent value="profile">
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Your Profile</CardTitle>
+        <CardDescription>
+          Review and update your profile information
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <UserProfile 
+          initialData={userData.profile}
+          onComplete={(profileData) => {
+            setUserData(prev => ({ ...prev, profile: profileData }));
+          }}
+        />
+      </CardContent>
+    </Card>
+  </TabsContent>
+</Tabs>
+
         )}
 
         {currentStep < 2 && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-6 px-4">
             <Button 
               variant="outline" 
               onClick={() => setCurrentStep(2)}
-              className="text-sm"
+              className="text-sm w-full sm:w-auto"
             >
               Skip to Demo Results
             </Button>
